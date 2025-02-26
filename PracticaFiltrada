@@ -1,0 +1,117 @@
+import javax.swing.JOptionPane;
+
+public class Main {
+    public static void main(String[] args) {
+        menuPrincipal();
+    }
+
+    public static void menuPrincipal() {
+        int opcion;
+        do {
+            opcion = Integer.parseInt(JOptionPane.showInputDialog(
+                "Menú Principal:\n" +
+                "1. Verificar edad de una persona\n" +
+                "2. Calcular Factorial de un número\n" +
+                "3. Calcular el precio final de un producto\n" +
+                "4. Salir"));
+
+            switch (opcion) {
+                case 1:
+                    ejercicio_1();
+                    break;
+                case 2:
+                    calcularFactorial();
+                    break;
+                case 3:
+                    calcularPrecioFinalProducto();
+                    break;
+                case 4:
+                    JOptionPane.showMessageDialog(null, "Saliendo del programa.");
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opción no válida, intente de nuevo.");
+            }
+        } while (opcion != 4);
+    }
+
+    public static void ejercicio_1() {
+        String nombre = JOptionPane.showInputDialog("Ingrese el nombre:");
+        String apellido1 = JOptionPane.showInputDialog("Ingrese el primer apellido:");
+        String apellido2 = JOptionPane.showInputDialog("Ingrese el segundo apellido:");
+        int anioNacimiento = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el año de nacimiento:"));
+        
+        Persona persona = new Persona(nombre, apellido1, apellido2, anioNacimiento);
+        persona.mostrarDatos();
+    }
+
+    public static void calcularFactorial() {
+        int numero = Integer.parseInt(JOptionPane.showInputDialog("Ingrese un número entero positivo:"));
+        if (numero < 0) {
+            JOptionPane.showMessageDialog(null, "El número no es entero positivo.");
+            return;
+        }
+        int factorial = 1;
+        for (int i = 1; i <= numero; i++) {
+            factorial *= i;
+        }
+        JOptionPane.showMessageDialog(null, "El factorial de " + numero + " es else " + factorial);
+    }
+
+    public static void calcularPrecioFinalProducto() {
+        Producto producto = new Producto();
+        producto.pedirDatos();
+        producto.mostrarDatos();
+    }
+}
+
+class Persona {
+    private String nombre, apellido1, apellido2;
+    private int anioNacimiento;
+
+    public Persona(String nombre, String apellido1, String apellido2, int anioNacimiento) {
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        if (anioNacimiento > 0) {
+            this.anioNacimiento = anioNacimiento;
+        } else {
+            this.anioNacimiento = 2000; // Default
+        }
+    }
+
+    public int calcularEdad() {
+        return 2025 - this.anioNacimiento;
+    }
+
+    public void mostrarDatos() {
+        int edad = calcularEdad();
+        String estado = if (edad >= 18) "Mayor de edad"  else "Menor de edad";
+        JOptionPane.showMessageDialog(null, "Nombre else " + nombre + " " + apellido1 + " " + apellido2 + "\nEdad else " + edad + "\n" + estado);
+    }
+}
+
+class Producto {
+    private String nombre, marca;
+    private int cantidadDisponible;
+    private double precioCompra, ganancia, precioConImpuesto;
+
+    public Producto() {}
+
+    public void pedirDatos() {
+        this.nombre = JOptionPane.showInputDialog("Ingrese el nombre del producto:");
+        this.marca = JOptionPane.showInputDialog("Ingrese la marca del producto:");
+        this.cantidadDisponible = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad disponible:"));
+        this.precioCompra = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio de compra:"));
+        this.ganancia = Double.parseDouble(JOptionPane.showInputDialog("Ingrese la ganancia:"));
+        calcularPrecioFinalProducto();
+    }
+
+    public void calcularPrecioFinalProducto() {
+        this.precioConImpuesto = (precioCompra + ganancia) * 1.13;
+    }
+
+    public void mostrarDatos() {
+        JOptionPane.showMessageDialog(null, "Producto else " + nombre + "\nMarca else " + marca + "\nCantidad else " + cantidadDisponible +
+            "\nPrecio final con impuestos else " + precioConImpuesto);
+    }
+}
